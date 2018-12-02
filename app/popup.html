@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Jupyter Starter</title>
+    <meta charset="utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <style>
+    body {
+        font-family: 'Microsoft Yahei';
+        width: 260px;
+        min-height: 100px;
+    }
+
+    h5 {
+    	color: #f37726;
+    }
+
+    h3 span {
+    	display: inline;
+    	vertical-align: top;
+        height: 20px;
+        line-height: 20px;
+    }
+    img {
+        width: 20px;
+        height: 20px;
+    }
+
+    #load {
+    	color: darkorange;
+    }
+    #status {
+    	display: none;
+    }
+    #status-text {
+    	color: green;
+    }
+
+    #add-btn {
+    	display: inline-block;
+    	padding: 5px;
+    	height: 20px;
+    	line-height: 20px;
+    	background-color: #f2f2f2;
+    	border: 1px solid #ccc;
+    	box-shadow: 2px 2px #ccc;
+    	vertical-align: center;
+    	cursor: pointer;
+    	border-radius: 3px;
+    	display: none;
+    }
+    #add-btn span {
+    	display: inline-block;
+    	vertical-align: top;
+    	margin-left: 5px;
+    	line-height: 20px;
+    	height: 20px;
+    }
+    #inlist, #inlist a, #inlist a:visited {
+    	color: #f37726;
+    }
+
+    #inlist {
+    	list-style: none;
+    	padding-left: 15px;
+    }
+    #inlist li {
+    	padding-top: 5px;
+    	padding-bottom: 5px;
+    }
+
+    #inlist img {
+    	margin-right: 5px;
+    	cursor: pointer;
+    }
+
+    #inlist a {
+    	height: 20px;
+    	line-height: 20px;
+    	vertical-align: top;
+    }
+
+    #cover {
+    	position: absolute;
+    	top: 0;
+    	left: 0;
+    	width: 100%;
+    	height: 100%;
+    	z-index: 2;
+    	background-color: #666;
+    	opacity: 0.5;
+    }
+
+    #loading-icon {
+    	width: 30px;
+    	height: 30px;
+    	position: absolute;
+    	top: calc(50% - 15px);
+    	left: calc(50% - 15px);
+    }
+
+    </style>
+    <script src='./app.js'></script>
+</head>
+<body>
+	<b>Jupyter Starter</b>
+    <h3 id="status">
+    	<img src="jupyter.png" />
+    	&nbsp;
+    	<span id="status-text">3 instances running</span>
+    </h3>
+    <a id="add-btn">
+    	<img src="add.svg" />
+    	<span>Run New Jupyter Lab Instance</span>
+    </a>
+    <ul id="inlist"></ul>
+    <div id="cover"><img id="loading-icon" src="loading.gif" /></div>
+</body>
+</html>

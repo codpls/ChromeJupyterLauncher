@@ -1,0 +1,69 @@
+#!/usr/bin/env python
+
+import struct
+import sys
+import json
+import subprocess, os
+import traceback
+
+if sys.platform == "win32":
+  import os, msvcrt
+  msvcrt.setmode(sys.stdin.fileno(), os.O_BINARY)
+  msvcrt.setmode(sys.stdout.fileno(), os.O_BINARY)
+
+def writeresp(message):
+  sys.stdout.buffer.write(struct.pack('I', len(message)))
+  sys.stdout.write(message)
+  sys.stdout.flush()
+
+def writelog(msg):
+  sys.stderr.write('Jupyter Controller Exception >>> ' + msg + '\n')
+  sys.stderr.flush()
+
+def runCmd(cmd):
+  osenv = os.environ.copy()
+  osenv["PATH"] = "/usr/sbin:/sbin:" + osenv["PATH"]
+  resp = subprocess.check_output(cmd, env=osenv)
+  return resp
+
+def getStatus(p):
+  cmddict = ['jupyter', 'notebook', 'list']
+  resp = runCmd(cmddict)
+  instances = [x for x in resp.decode('utf-8').split() if x.startswith('http')]
+  echolist = ('"%s"' % '","'.join(instances)) if len(instances) > 0 else ''
+  return '{"cmd": "status", "echo": [%s]}' % echolist
+
+def start(p):
+  osenv = os.environ.copy()
+  cmddict = ['jupyter', 'lab', osenv['HOME'] if 'HOME' in osenv else '/']
+  resp = runCmd(cmddict)
+  return '{"cmd": "start", "echo": ""}'
+
+def stop(port):
+  cmddict = ['jupyter', 'notebook', 'stop', str(port)]
+  resp = runCmd(cmddict)
+  return '{"cmd": "stop", "echo": ""}'
+
+cmdList = {
+  'status': getStatus,
+  'start': start,
+  'stop': stop,
+}
+
+def main():
+  text_length_bytes = sys.stdin.read(4)
+  if len(text_length_bytes) == 0:
+    return
+  msglen = struct.unpack('i', text_length_bytes.encode('utf-8'))[0]
+  msgjson = sys.stdin.read(msglen)
+  req = json.loads(msgjson)
+  if 'cmd' in req and req['cmd'] in cmdList:
+    data = req['data'] if 'data' in req else ''
+    respstr = cmdList[req['cmd']](data)
+    writeresp(respstr)
+
+if __name__ == '__main__':
+  try:
+    main()
+  except Exception as e:
+    writelog(traceback.format_exc())

@@ -1,0 +1,18 @@
+{
+    "name": "JupyterStarter",
+    "version": "1.0",
+    "manifest_version": 2,
+    "description": "A Jupyter Starter",
+    "icons": {
+        "64": "jupyter.png"
+    },
+    "browser_action": {
+        "default_icon": "jupyter.png",
+        "default_title": "Jupyter Starter",
+        "default_popup": "popup.html"
+    },
+    "permissions": [
+        "nativeMessaging",
+        "tabs"
+    ]
+}
