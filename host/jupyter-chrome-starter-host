@@ -12,7 +12,11 @@ if sys.platform == "win32":
   msvcrt.setmode(sys.stdout.fileno(), os.O_BINARY)
 
 def writeresp(message):
-  sys.stdout.write(struct.pack('I', len(message)))
+  if sys.version_info.major <= 2:
+    sys.stdout.write(struct.pack('I', len(message)))
+  else:
+    sys.stdout.buffer.write(struct.pack('I', len(message)))
+
   sys.stdout.write(message)
   sys.stdout.flush()
 
@@ -29,7 +33,7 @@ def runCmd(cmd):
 def getStatus(p):
   cmddict = ['jupyter', 'notebook', 'list']
   resp = runCmd(cmddict)
-  instances = [x for x in resp.split() if x.startswith('http')]
+  instances = [x for x in resp.split() if x.startswith('http')] if sys.version_info.major <= 2 else [x for x in resp.decode('utf-8').split() if x.startswith('http')] 
   echolist = ('"%s"' % '","'.join(instances)) if len(instances) > 0 else ''
   return '{"cmd": "status", "echo": [%s]}' % echolist
 
@@ -54,8 +58,8 @@ def main():
   text_length_bytes = sys.stdin.read(4)
   if len(text_length_bytes) == 0:
     return
-  msglen = struct.unpack('i', text_length_bytes)[0]
-  msgjson = sys.stdin.read(msglen).decode('utf-8')
+  msglen = struct.unpack('i', text_length_bytes)[0] if sys.version_info.major <= 2 else struct.unpack('i', text_length_bytes.encode('utf-8'))[0]
+  msgjson = sys.stdin.read(msglen).decode('utf-8') if sys.version_info.major <= 2 else sys.stdin.read(msglen)
   req = json.loads(msgjson)
   if 'cmd' in req and req['cmd'] in cmdList:
     data = req['data'] if 'data' in req else ''
