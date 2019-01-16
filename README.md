@@ -19,11 +19,10 @@ Currently it supports Mac OS, Windows and Linux (Ubuntu tested).
 
 ### Notes
 The host depends on the commands of Jupyter Lab. Make sure you can execute the following commands (add the path to Environment Variable).
+
 * `jupyter lab ~/`
 * `jupyter notebook stop [port]`
 * `jupyter notebook list`
-
-Host file `jupyter-chrome-starter-host` is for Python2, `jupyter-chrome-starter-host-py3` is for Python3
 
 
 
