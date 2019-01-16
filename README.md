@@ -19,6 +19,7 @@ Currently it supports Mac OS, Windows and Linux (Ubuntu tested).
 
 ### Notes
 The host depends on the commands of Jupyter Lab. Make sure you can execute the following commands (add the path to Environment Variable).
+If not working, please make a symbolic link of `jupyter` to `/usr/local/bin/jupyter`, i.e. `ln -s /path-to-your-jupyter/jupyter /usr/local/bin/jupyter`
 
 * `jupyter lab ~/`
 * `jupyter notebook stop [port]`

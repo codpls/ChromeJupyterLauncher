@@ -26,7 +26,7 @@ def writelog(msg):
 
 def runCmd(cmd):
   osenv = os.environ.copy()
-  osenv["PATH"] = "/usr/sbin:/sbin:" + osenv["PATH"]
+  osenv["PATH"] = "/usr/sbin:/sbin:/usr/local/bin/:" + osenv["PATH"]
   resp = subprocess.check_output(cmd, env=osenv)
   return resp
 
