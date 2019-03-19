@@ -1,4 +1,4 @@
-# JupyterChromeStarter
+# ChromeJupyterLauncher
  A Chrome extension used to quick start Jupyter Lab in chrome control bar.
  
  If you like it, please `star`
